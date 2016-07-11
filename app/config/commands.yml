@@ -1,0 +1,8 @@
+commands:
+  product.updated:
+    topic: magento.catalog.product_management.updated
+    command: product:updated
+    variable: sku
+    description: Simulate product updated message
+    fixture: product.updated
+    service: oms

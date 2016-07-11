@@ -1,0 +1,18 @@
+#!/usr/bin/php
+<?php
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+$app = new Silex\Application();
+
+$app->register(new \Magento\Bootstrap\Provider\CommandProvider());
+$app->register(new \Magento\Bootstrap\Provider\FixtureProvider());
+$app->register(new \Magento\Bootstrap\Provider\ConfigurationProvider());
+$app->register(new \Magento\Bootstrap\Provider\AmqpProvider());
+$app->register(new \Magento\Bootstrap\Provider\DatabaseProvider());
+
+$app['debug'] = true;
+
+$app->boot();
+
+$app['bootstrap.command.app']->run();

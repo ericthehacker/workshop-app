@@ -1,0 +1,27 @@
+{
+  "product": {
+    "associations": [],
+    "attribute_set": "4",
+    "created_at": "2016-04-28T11:18:54+00:00",
+    "customizations": [],
+    "enabled": true,
+    "modified_at": "2016-06-28T13:24:42+00:00",
+    "name": [
+      {
+        "channel": null,
+        "locale": null,
+        "value": "Washburn WD7S"
+      },
+      {
+        "channel": "frontend",
+        "locale": "es_ES",
+        "value": "Washburn WD7S"
+      }
+    ],
+    "sku": "WB-WD7S",
+    "visibility": [
+      "catalog",
+      "search"
+    ]
+  }
+}

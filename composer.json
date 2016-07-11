@@ -1,0 +1,23 @@
+{
+    "name": "magento-com/bootstrap-app",
+    "authors": [
+        {
+            "name": "Marc Espinosa",
+            "email": "marespinosa@magento.com"
+        }
+    ],
+    "require": {
+        "silex/silex": "^2.0",
+        "symfony/console": "^3.0",
+        "symfony/yaml": "^3.1",
+        "skolodyazhnyy/message-bus-client": "^0.1.0",
+        "php-amqplib/php-amqplib": "^2.6",
+        "doctrine/orm": "^2.5",
+        "fredjuvaux/doctrine-orm-provider": "1.0.*@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Magento\\Bootstrap\\": "src/"
+        }
+    }
+}
