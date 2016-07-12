@@ -11,24 +11,28 @@ use Doctrine\ORM\Mapping as ORM;
 class Sku
 {
     /**
+     * @var string
+     *
      * @ORM\Id
      * @ORM\Column(length=128)
      */
     private $sku;
 
     /**
+     * @var string
+     *
      * @ORM\Column(length=128)
      */
     private $name;
 
     /**
      * @param string $sku
-     *
-     * @return Sku
+     * @param string $name
      */
-    public function __construct($sku)
+    public function __construct($sku, $name = null)
     {
         $this->sku = $sku;
+        $this->name = $name;
     }
 
     /**

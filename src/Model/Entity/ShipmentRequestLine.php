@@ -11,41 +11,55 @@ use Doctrine\ORM\Mapping as ORM;
 class ShipmentRequestLine
 {
     /**
+     * @var string
+     *
      * @ORM\Id
      * @ORM\Column(length=128)
      */
     private $id;
 
     /**
-     * @ORM\Column(length=128, name="shipment_request_id")
+     * @var ShipmentRequest
+     *
+     * @ORM\ManyToOne(targetEntity="\Magento\Bootstrap\Model\Entity\ShipmentRequest", inversedBy="lines")
      */
-    private $shipmentRequestId;
+    private $shipmentRequest;
 
     /**
+     * @var string
+     *
      * @ORM\Column(length=128)
      */
     private $sku;
 
     /**
-     * @ORM\Column(type="float")
+     * @var int
+     *
+     * @ORM\Column(type="integer")
      */
     private $quantity;
 
     /**
+     * @var float
+     *
      * @ORM\Column(type="float")
      */
     private $amount;
 
     /**
-     * @param $id
+     * @param ShipmentRequest $request
+     * @param string          $id
+     * @param string          $sku
      */
-    public function __construct($id)
+    public function __construct(ShipmentRequest $request, $id, $sku)
     {
+        $this->shipmentRequest = $request;
         $this->id = $id;
+        $this->sku = $sku;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getId()
     {
@@ -53,27 +67,15 @@ class ShipmentRequestLine
     }
 
     /**
-     * @return mixed
+     * @return ShipmentRequest
      */
-    public function getShipmentRequestId()
+    public function getShipmentRequest()
     {
-        return $this->shipmentRequestId;
+        return $this->shipmentRequest;
     }
 
     /**
-     * @param mixed $shipmentRequestId
-     *
-     * @return ShipmentRequestLine
-     */
-    public function setShipmentRequestId($shipmentRequestId)
-    {
-        $this->shipmentRequestId = $shipmentRequestId;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
+     * @return string
      */
     public function getSku()
     {
@@ -81,7 +83,7 @@ class ShipmentRequestLine
     }
 
     /**
-     * @param mixed $sku
+     * @param string $sku
      *
      * @return ShipmentRequestLine
      */
@@ -93,7 +95,7 @@ class ShipmentRequestLine
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getQuantity()
     {
@@ -101,7 +103,7 @@ class ShipmentRequestLine
     }
 
     /**
-     * @param mixed $quantity
+     * @param int $quantity
      *
      * @return ShipmentRequestLine
      */
@@ -113,7 +115,7 @@ class ShipmentRequestLine
     }
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getAmount()
     {
@@ -121,7 +123,7 @@ class ShipmentRequestLine
     }
 
     /**
-     * @param mixed $amount
+     * @param float $amount
      *
      * @return ShipmentRequestLine
      */

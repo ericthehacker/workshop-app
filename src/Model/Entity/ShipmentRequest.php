@@ -2,6 +2,8 @@
 
 namespace Magento\Bootstrap\Model\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,41 +13,59 @@ use Doctrine\ORM\Mapping as ORM;
 class ShipmentRequest
 {
     /**
+     * @var string
+     *
      * @ORM\Id
      * @ORM\Column(length=128)
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
     private $number;
 
     /**
+     * @var string
+     *
      * @ORM\Column(length=128, name="order_id")
      */
     private $orderId;
 
     /**
+     * @var float
+     *
      * @ORM\Column(type="float")
      */
     private $amount;
 
     /**
+     * @var string
+     *
      * @ORM\Column(length=128)
      */
     private $status;
 
     /**
-     * @param $id
+     * @var Collection|ShipmentRequestLine[]
+     *
+     * @ORM\OneToMany(targetEntity="\Magento\Bootstrap\Model\Entity\ShipmentRequestLine", mappedBy="shipmentRequest", cascade={"all"})
+     */
+    private $lines;
+
+    /**
+     * @param string $id
      */
     public function __construct($id)
     {
         $this->id = $id;
+        $this->lines = new ArrayCollection();
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getId()
     {
@@ -53,7 +73,7 @@ class ShipmentRequest
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getNumber()
     {
@@ -61,7 +81,7 @@ class ShipmentRequest
     }
 
     /**
-     * @param mixed $number
+     * @param string $number
      *
      * @return ShipmentRequest
      */
@@ -73,7 +93,7 @@ class ShipmentRequest
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOrderId()
     {
@@ -81,7 +101,7 @@ class ShipmentRequest
     }
 
     /**
-     * @param mixed $orderId
+     * @param string $orderId
      *
      * @return ShipmentRequest
      */
@@ -93,7 +113,7 @@ class ShipmentRequest
     }
 
     /**
-     * @return mixed
+     * @return float
      */
     public function getAmount()
     {
@@ -101,7 +121,7 @@ class ShipmentRequest
     }
 
     /**
-     * @param mixed $amount
+     * @param float $amount
      *
      * @return ShipmentRequest
      */
@@ -113,7 +133,7 @@ class ShipmentRequest
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getStatus()
     {
@@ -121,7 +141,7 @@ class ShipmentRequest
     }
 
     /**
-     * @param mixed $status
+     * @param string $status
      *
      * @return ShipmentRequest
      */
@@ -130,5 +150,32 @@ class ShipmentRequest
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @param string $id
+     * @param string $sku
+     * @param int    $quantity
+     * @param float  $amount
+     *
+     * @return $this
+     */
+    public function addLine($id, $sku, $quantity, $amount)
+    {
+        $line = new ShipmentRequestLine($this, $id, $sku);
+        $line->setAmount($amount);
+        $line->setQuantity($quantity);
+
+        $this->lines[] = $line;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ShipmentRequestLine[]
+     */
+    public function getLines()
+    {
+        return $this->lines;
     }
 }

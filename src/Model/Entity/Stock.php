@@ -10,29 +10,52 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stock
 {
+    const DEFAULT_TYPE = 'GOOD';
+
     /**
+     * @var int
+     *
      * @ORM\Id
-     * @ORM\Column(length=128)
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(length=128)
      */
     private $sku;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      */
     private $quantity;
 
     /**
+     * @var string
+     *
      * @ORM\Column(length=128)
      */
     private $type;
 
     /**
-     * @return mixed
+     * @param string $sku
+     * @param int    $quantity
+     * @param string $type
+     */
+    public function __construct($sku, $quantity, $type = null)
+    {
+        $this->sku = $sku;
+        $this->quantity = $quantity;
+        $this->type = $type ?: self::DEFAULT_TYPE;
+    }
+
+    /**
+     * @return int
      */
     public function getId()
     {
@@ -40,19 +63,7 @@ class Stock
     }
 
     /**
-     * @param mixed $id
-     *
-     * @return Stock
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
+     * @return string
      */
     public function getSku()
     {
@@ -60,7 +71,7 @@ class Stock
     }
 
     /**
-     * @param mixed $sku
+     * @param string $sku
      *
      * @return Stock
      */
@@ -72,7 +83,7 @@ class Stock
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getQuantity()
     {
@@ -80,7 +91,7 @@ class Stock
     }
 
     /**
-     * @param mixed $quantity
+     * @param int $quantity
      *
      * @return Stock
      */
@@ -92,7 +103,7 @@ class Stock
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getType()
     {
@@ -100,7 +111,7 @@ class Stock
     }
 
     /**
-     * @param mixed $type
+     * @param string $type
      *
      * @return Stock
      */
