@@ -2,9 +2,11 @@
 
 Welcome to Magento Commerce Order Management workshop! In this repository you will find a simple cli application which will be used to build integrations with [Magento Commerce Order Management](https://magento.com/products/commerce-order-management).
 
-We choose to use cli application with SQLite as most basic one. You can run it on your host machine without need to run local web server, database server, docker or virtual machine.
+We choose to use cli application with SQLite as most basic one. You can run it on your host machine without need to run local web server, database server, docker or virtual machine. But, of course, you can build integrations in any kind of application, and even in langauge other than PHP.
 
-The application build on top of [Silex microframework](http://silex.sensiolabs.org/), [Symfony Console component](http://symfony.com/doc/current/components/console/introduction.html) and [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html). These allow us to provide thin, but yet powerful, platform for building an integration. *Although, keep in mind, this stack was chosen only for purpose of this workshop, we encourage you to choose tools and framework you feel more comfortable with when building integrations.*
+The application build on top of [Silex microframework](http://silex.sensiolabs.org/), [Symfony Console component](http://symfony.com/doc/current/components/console/introduction.html) and [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html). These allow us to provide thin, but yet powerful, platform for building an integration.
+
+> Although, keep in mind, this stack was chosen only for purpose of this workshop, we encourage you to choose tools and framework you feel more comfortable with when building integrations.
 
 ## Requirements
 
@@ -135,7 +137,9 @@ $ app/console update-stock-level WB023115 14
 
 ### Making API calls, publishing and broadcasting messages
 
-This application uses [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library, which provide very basic transport bindings for [Magento Shared Specification](https://magento-mcom.github.io/docs). *Keep in mind: It's not an official library, just a basic implementation for purpose of this workshop.* 
+This application uses [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library, which provide very basic transport bindings for [Magento Shared Specification](https://magento-mcom.github.io/docs). 
+
+> Keep in mind: It's not an official library, just a basic implementation for purpose of this workshop.
 
 In the command, you can access API client using `AbstractCommand::getApiClient` method.
 
