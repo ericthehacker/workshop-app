@@ -20,7 +20,8 @@ class CommandProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['bootstrap.fixture_commands.config'] = function () use ($pimple) {
-            $yaml = file_get_contents(__DIR__ . '/../../app/config/commands.yml');
+            $yaml = file_get_contents(__DIR__.'/../../app/config/commands.yml');
+
             return Yaml::parse($yaml);
         };
         $pimple['bootstrap.command.discovery.fixture_commands'] = function () use ($pimple) {
@@ -72,28 +73,28 @@ class CommandProvider implements ServiceProviderInterface
             $application->addCommands($pimple['bootstrap.commands']);
 
             $application->setHelperSet(new \Symfony\Component\Console\Helper\HelperSet(array(
-                'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($pimple["entity_manager"])
+                'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($pimple['entity_manager']),
             )));
 
             $application->addCommands([
-                new \Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand,
-                new \Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand,
-                new \Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand,
-                new \Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand,
-                new \Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand,
-                new \Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand,
-                new \Doctrine\ORM\Tools\Console\Command\ConvertDoctrine1SchemaCommand,
-                new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand,
-                new \Doctrine\ORM\Tools\Console\Command\EnsureProductionSettingsCommand,
-                new \Doctrine\ORM\Tools\Console\Command\GenerateEntitiesCommand,
-                new \Doctrine\ORM\Tools\Console\Command\GenerateProxiesCommand,
-                new \Doctrine\ORM\Tools\Console\Command\GenerateRepositoriesCommand,
-                new \Doctrine\ORM\Tools\Console\Command\InfoCommand,
-                new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand,
-                new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand,
-                new \Doctrine\DBAL\Tools\Console\Command\ImportCommand,
-                new \Doctrine\DBAL\Tools\Console\Command\ReservedWordsCommand,
-                new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand
+                new \Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\ClearCache\QueryCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\SchemaTool\CreateCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\SchemaTool\DropCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\SchemaTool\UpdateCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\ConvertDoctrine1SchemaCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\EnsureProductionSettingsCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\GenerateEntitiesCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\GenerateProxiesCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\GenerateRepositoriesCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\InfoCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
+                new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
+                new \Doctrine\DBAL\Tools\Console\Command\ImportCommand(),
+                new \Doctrine\DBAL\Tools\Console\Command\ReservedWordsCommand(),
+                new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),
             ]);
 
             return $application;

@@ -21,6 +21,7 @@ class ShowTable extends ContainerAwareCommand
 
     /**
      * ShowTable constructor.
+     *
      * @param string $entityName
      * @param string $className
      */
@@ -28,7 +29,7 @@ class ShowTable extends ContainerAwareCommand
     {
         $this->entityName = $entityName;
         $this->className = $className;
-        parent::__construct('query:'. strtolower($this->entityName) . ':all');
+        parent::__construct('query:'.strtolower($this->entityName).':all');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -51,7 +52,6 @@ class ShowTable extends ContainerAwareCommand
         }
 
         $table->render();
-
     }
 
     /**
@@ -66,7 +66,7 @@ class ShowTable extends ContainerAwareCommand
         $reflect = new \ReflectionClass($entity);
         $properties = $reflect->getProperties();
 
-        return array_map(function(\ReflectionProperty $property) {
+        return array_map(function (\ReflectionProperty $property) {
             return $property->getName();
         }, $properties);
     }
@@ -74,6 +74,7 @@ class ShowTable extends ContainerAwareCommand
     /**
      * @param $entity
      * @param $property
+     *
      * @return array
      */
     protected function getPropertyValue($entity, $property)

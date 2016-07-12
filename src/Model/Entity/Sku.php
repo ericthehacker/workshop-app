@@ -23,6 +23,7 @@ class Sku
 
     /**
      * @param string $sku
+     *
      * @return Sku
      */
     public function __construct($sku)
@@ -48,11 +49,13 @@ class Sku
 
     /**
      * @param string $name
+     *
      * @return Sku
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 }

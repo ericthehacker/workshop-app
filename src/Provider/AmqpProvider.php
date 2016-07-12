@@ -5,11 +5,8 @@ namespace Magento\Bootstrap\Provider;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Seven\Component\MessageBusClient\Binding\CallbackBinding;
 use Seven\Component\MessageBusClient\Client;
 use Seven\Component\MessageBusClient\Encoder\JsonEncoder;
-use Seven\Component\MessageBusClient\Message\Request;
-use Seven\Component\MessageBusClient\Message\Response;
 use Seven\Component\MessageBusClient\Protocol\AMQP;
 
 class AmqpProvider implements ServiceProviderInterface
@@ -21,6 +18,7 @@ class AmqpProvider implements ServiceProviderInterface
     {
         $pimple['bootstrap.amqp.connection'] = function () use ($pimple) {
             $config = $pimple['bootstrap.config']['amqp'];
+
             return new AMQPStreamConnection(
                 $config['host'],
                 $config['port'],

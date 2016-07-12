@@ -8,12 +8,14 @@ class Loader
 {
     /**
      * @param string $fixture
+     *
      * @return string
+     *
      * @throws FixtureNotFoundException
      */
     public function load($fixture)
     {
-        $filename = __DIR__ . '/../../app/fixtures/' . $fixture . '.json';
+        $filename = __DIR__.'/../../app/fixtures/'.$fixture.'.json';
 
         if (!file_exists($filename)) {
             throw new FixtureNotFoundException($fixture);

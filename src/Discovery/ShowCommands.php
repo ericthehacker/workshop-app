@@ -11,15 +11,14 @@ class ShowCommands implements DiscoveryInterface
      */
     public function discover()
     {
-
-        $files = glob(__DIR__ . '/../Model/Entity/*.php');
+        $files = glob(__DIR__.'/../Model/Entity/*.php');
 
         $commands = [];
 
         foreach ($files as $file) {
             preg_match('/^.+\/(.+)\.php$/', $file, $matches);
             $entityName = $matches[1];
-            $className = '\Magento\Bootstrap\Model\Entity\\' . $entityName;
+            $className = '\Magento\Bootstrap\Model\Entity\\'.$entityName;
             $commands[] = new ShowTable($entityName, $className);
         }
 

@@ -20,8 +20,9 @@ abstract class ContainerAwareCommand extends Command
         return $this->container;
     }
 
-    public function setContainer(Container $container) {
-       $this->container = $container;
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
     }
 
     /**
@@ -55,6 +56,7 @@ abstract class ContainerAwareCommand extends Command
 
     /**
      * @param $entityClass
+     *
      * @return \Magento\Bootstrap\Model\Repository\AbstractRepository
      */
     public function getRepository($entityClass)

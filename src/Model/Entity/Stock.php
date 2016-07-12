@@ -41,11 +41,13 @@ class Stock
 
     /**
      * @param mixed $id
+     *
      * @return Stock
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -59,11 +61,13 @@ class Stock
 
     /**
      * @param mixed $sku
+     *
      * @return Stock
      */
     public function setSku($sku)
     {
         $this->sku = $sku;
+
         return $this;
     }
 
@@ -77,11 +81,13 @@ class Stock
 
     /**
      * @param mixed $quantity
+     *
      * @return Stock
      */
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+
         return $this;
     }
 
@@ -95,13 +101,13 @@ class Stock
 
     /**
      * @param mixed $type
+     *
      * @return Stock
      */
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
-
-
 }

@@ -62,11 +62,13 @@ class ShipmentRequest
 
     /**
      * @param mixed $number
+     *
      * @return ShipmentRequest
      */
     public function setNumber($number)
     {
         $this->number = $number;
+
         return $this;
     }
 
@@ -80,11 +82,13 @@ class ShipmentRequest
 
     /**
      * @param mixed $orderId
+     *
      * @return ShipmentRequest
      */
     public function setOrderId($orderId)
     {
         $this->orderId = $orderId;
+
         return $this;
     }
 
@@ -98,11 +102,13 @@ class ShipmentRequest
 
     /**
      * @param mixed $amount
+     *
      * @return ShipmentRequest
      */
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
         return $this;
     }
 
@@ -116,11 +122,13 @@ class ShipmentRequest
 
     /**
      * @param mixed $status
+     *
      * @return ShipmentRequest
      */
     public function setStatus($status)
     {
         $this->status = $status;
+
         return $this;
     }
 }

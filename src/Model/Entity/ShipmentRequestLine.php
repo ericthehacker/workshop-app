@@ -62,11 +62,13 @@ class ShipmentRequestLine
 
     /**
      * @param mixed $shipmentRequestId
+     *
      * @return ShipmentRequestLine
      */
     public function setShipmentRequestId($shipmentRequestId)
     {
         $this->shipmentRequestId = $shipmentRequestId;
+
         return $this;
     }
 
@@ -80,11 +82,13 @@ class ShipmentRequestLine
 
     /**
      * @param mixed $sku
+     *
      * @return ShipmentRequestLine
      */
     public function setSku($sku)
     {
         $this->sku = $sku;
+
         return $this;
     }
 
@@ -98,11 +102,13 @@ class ShipmentRequestLine
 
     /**
      * @param mixed $quantity
+     *
      * @return ShipmentRequestLine
      */
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
+
         return $this;
     }
 
@@ -116,11 +122,13 @@ class ShipmentRequestLine
 
     /**
      * @param mixed $amount
+     *
      * @return ShipmentRequestLine
      */
     public function setAmount($amount)
     {
         $this->amount = $amount;
+
         return $this;
     }
 }

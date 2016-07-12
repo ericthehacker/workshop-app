@@ -28,7 +28,7 @@ class SimulateMessage extends Command
     /**
      * @param Loader $fixtureLoader
      * @param Client $amqpClient
-     * @param array $config
+     * @param array  $config
      */
     public function __construct(Loader $fixtureLoader, Client $amqpClient, array $config)
     {
@@ -41,7 +41,7 @@ class SimulateMessage extends Command
     protected function configure()
     {
         $this
-            ->setName('bootstrap:' . $this->config['command'])
+            ->setName('bootstrap:'.$this->config['command'])
             ->setDescription($this->config['description'])
         ;
     }
