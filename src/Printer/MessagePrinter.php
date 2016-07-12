@@ -12,6 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class MessagePrinter implements EventSubscriberInterface
 {
+    const SEPARATOR = '---------------------------------------------------------------------------';
     /**
      * @var OutputInterface
      */
@@ -45,10 +46,11 @@ class MessagePrinter implements EventSubscriberInterface
      */
     public function broadcast(BroadcastEvent $event)
     {
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln(sprintf('Broadcast "%s"', $event->getRequest()->getTopic()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln($this->getPayload($event->getRequest()->getArguments()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
     }
 
     /**
@@ -56,10 +58,11 @@ class MessagePrinter implements EventSubscriberInterface
      */
     public function publish(PublishEvent $event)
     {
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln(sprintf('Publish "%s" to "%s"', $event->getRequest()->getTopic(), $event->getService()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln($this->getPayload($event->getRequest()->getArguments()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
     }
 
     /**
@@ -67,10 +70,11 @@ class MessagePrinter implements EventSubscriberInterface
      */
     public function call(CallEvent $event)
     {
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln(sprintf('Call "%s" at "%s"', $event->getRequest()->getTopic(), $event->getService()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln($this->getPayload($event->getRequest()->getArguments()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
     }
 
     /**
@@ -78,10 +82,11 @@ class MessagePrinter implements EventSubscriberInterface
      */
     public function reply(ReplyEvent $event)
     {
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln(sprintf('Receive reply for "%s" from "%s"', $event->getRequest()->getTopic(), $event->getService()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
         $this->output->writeln($this->getPayload($event->getResponse()->getValue()));
-        $this->output->writeln('');
+        $this->output->writeln(self::SEPARATOR);
     }
 
     /**

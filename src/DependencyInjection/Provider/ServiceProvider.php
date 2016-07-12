@@ -6,6 +6,7 @@
 
 namespace Magento\Bootstrap\DependencyInjection\Provider;
 
+use Magento\Bootstrap\Printer\ServicePrinterDecorator;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Seven\Component\MessageBusClient\Binding\CallbackBinding;
@@ -38,8 +39,10 @@ class ServiceProvider implements ServiceProviderInterface
 
             $this->setup($pimple, $bindings);
 
-            return $pimple['bootstrap.api_client']->define('workshop-app')
+            $service = $pimple['bootstrap.api_client']->define('workshop-app')
                 ->bind($bindings);
+
+            return new ServicePrinterDecorator($service);
         };
     }
 }
