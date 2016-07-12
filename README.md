@@ -37,11 +37,21 @@ $ open app/config/parameters.yml # and set options in amqp section
 
 You all set, now you can start building an integration!
 
+## Quick reference
+- [Explore the application](#explore-the-application)
+    - [Directory Structure](#directory-structure)
+    - [Database Schema](#database-schema)
+- [Extend the application](#extend-the-application)
+    - [Adding a command](#adding-a-command)
+    - [Making API calls, publishing and broadcasting messages](#making-api-calls-publishing-and-broadcasting-messages)
+    - [Consuming messages](#consuming-messages)
+    - [Declaring your own entities](#declaring-your-own-entities)
+
 ## Explore the application
 
 We've tried to minimize application and hide implementation details, so you don't need to learn how components work, just write your code in certain places and you should be good to go!
 
-### Directory structure
+### Directory Structure
 
 - **app** - application files
     - **config** - configuration
@@ -67,6 +77,8 @@ $ app/console query:shipmentrequestline:all # Prints all shipment request lines
 $ app/console query:sku:all # Prints all sku
 $ app/console query:stock:all # Prints all stock levels
 ```
+
+## Extend the application
 
 ### Adding a command
 
@@ -185,3 +197,11 @@ var_export($response->getValue());
 
 - API client is defined in `Magento\Bootstrap\DependencyInjection\Provider\ApiProvider`, you can tune it up, if needed.
 - More examples for client library can be found [at Github](https://github.com/skolodyazhnyy/message-bus-simple-client/tree/master/examples).
+
+### Consuming messages
+
+*TBD*
+
+### Declaring your own entities
+
+TBD*
