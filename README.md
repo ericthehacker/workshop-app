@@ -2,9 +2,11 @@
 
 Welcome to Magento Commerce Order Management workshop! In this repository you will find a simple cli application which will be used to build integrations with [Magento Commerce Order Management](https://magento.com/products/commerce-order-management).
 
-We choose to use cli application with SQLite as most basic one. You can run it on your host machine without need to run local web server, database server, docker or virtual machine.
+We choose to use cli application with SQLite as most basic one. You can run it on your host machine without need to run local web server, database server, docker or virtual machine. But, of course, you can build integrations in any kind of application, and even in langauge other than PHP.
 
-The application build on top of [Silex microframework](http://silex.sensiolabs.org/), [Symfony Console component](http://symfony.com/doc/current/components/console/introduction.html) and [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html). These allow us to provide thin, but yet powerful, platform for building an integration. *Although, keep in mind, this stack was chosen only for purpose of this workshop, we encourage you to choose tools and framework you feel more comfortable with when building integrations.*
+The application build on top of [Silex microframework](http://silex.sensiolabs.org/), [Symfony Console component](http://symfony.com/doc/current/components/console/introduction.html) and [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html). These allow us to provide thin, but yet powerful, platform for building an integration.
+
+> Although, keep in mind, this stack was chosen only for purpose of this workshop, we encourage you to choose tools and framework you feel more comfortable with when building integrations.
 
 ## Requirements
 
@@ -91,14 +93,14 @@ Simply create a new PHP class inside of the `src/Command` folder and extend it f
 
 #### 2. Override configure method
 
-Create configure method with the same signature as in the parent class and set command name and list of arguments in the body of the method. For example:
+Create `configure` method with the same signature as in the parent class and set command name and list of arguments in the body of the method. For example:
 
 ```php
 protected function configure()
 {
-    $this->setName('update-stock-level')
-        ->setDescription('Send stock level update')
-        ->addArgument('sku', InputArgument::REQUIRED, 'SKU')
+    $this->setName('update-stock-level') // name will be used to run your command
+        ->setDescription('Send stock level update') // description will be shown when you run app/console without arguments
+        ->addArgument('sku', InputArgument::REQUIRED, 'SKU') // you can add as many arguments as you need
         ->addArgument('qty', InputArgument::REQUIRED, 'Quantity')
     ;
 }
@@ -106,7 +108,7 @@ protected function configure()
 
 #### 3. Declare execute method
 
-Last step, you need to implement logic of your command. You would need to override `execute` method and implement your logic inside.
+Last step, you need to implement logic of your command. You would need to override `execute` method and implement your logic inside. For exmaple, this command will publish a message to the API client:
 
 ```php
 protected function execute(InputInterface $input, OutputInterface $output)
@@ -135,7 +137,9 @@ $ app/console update-stock-level WB023115 14
 
 ### Making API calls, publishing and broadcasting messages
 
-This application uses [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library, which provide very basic transport bindings for [Magento Shared Specification](https://magento-mcom.github.io/docs). *Keep in mind: It's not an official library, just a basic implementation for purpose of this workshop.* 
+This application uses [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library, which provide very basic transport bindings for [Magento Shared Specification](https://magento-mcom.github.io/docs). 
+
+> Keep in mind: It's not an official library, just a basic implementation for purpose of this workshop.
 
 In the command, you can access API client using `AbstractCommand::getApiClient` method.
 
@@ -200,8 +204,101 @@ var_export($response->getValue());
 
 ### Consuming messages
 
-*TBD*
+In previous section you learn how to broadcast and send messages to other services. Now it's time to see how you can receive messages from other services! 
+
+First, you need to create bindings for topics your application is interested in. Your application may implement one or multiple services defined in [Magento Shared Service Specification](https://magento-mcom.github.io/docs/specification/#services). Implementing a service means being able to process all command and queries and dispatch all events defined in specification. Apart of that your application also can subscribe to any event exposed by other services.
+
+You can subscribe to topics using API of [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library. You already learn how to discover remote endpoint, but as well you can define your own services using `ClientInterface::define` method.
+
+```php
+$service = $client->define('my-service');
+```
+
+Now, you can create bindings for topics you are interested in by calling `ServiceInterface::bind` method. It accepts instance of the `BindingInterface` interface as an argument. You can create your own implementation which will work best for you, but for quick start you can use `CallbackBinding`. It allows you to bind any callable to the topic using `CallbackBinding::on` method.
+
+```
+$service->bind(
+    (new CallbackBinding())
+        ->on('message-topic', '0', function(Request $request) {
+            // for sync methods you can return Response
+            return new Response('result');
+        })
+        ->on('some-other-topic', '0', function(Request $request) {
+            // for async methods you don't need to return anything
+        })
+);
+```
+
+These bindings can be defined in `src/DependencyInjection/Provider/ServiceProvider.php`. This file already have service defined, all you need to do is to add your callbacks.
+
+Once bindings are done you can use service in AMQP or HTTP consumer.
+
+#### AMQP consumer
+
+There is already an AMQP consumer in the application, so you don't need to worry about a thing. You can start consuming messages by running:
+
+```bash
+$ app/console consume
+```
 
 ### Declaring your own entities
 
-*TBD*
+We decided to use Doctrine ORM in the application because it nicely hides all complexity of persistance layer providing nice object-level API. There are few entities defined in `src/Model/Entity`, you can use them as example to define your owns.
+
+#### 1. Create entity and define mapping
+
+Create a new class in `src/Model/Entity` and define properties of your entity.
+
+```php
+<?php
+
+namespace Magento\Bootstrap\Model\Entity;
+
+class Sku
+{
+    private $sku;
+    private $name;
+
+    // Define __construct, getters and setters depending on mutability of each field
+}
+```
+
+Once you decide what fields your model will have, add Doctrine Annotations to explain what SQL types doctrine should use in the database.
+
+```php
+<?php
+namespace Magento\Bootstrap\Model\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="\Magento\Bootstrap\Model\Repository\SkuRepository")
+ * @ORM\Table(name="sku")
+ */
+class Sku
+{
+    /**
+     * @ORM\Id                  -- exactly one of the fields should be marked as primary key
+     * @ORM\Column(length=128)
+     */
+    private $sku;
+
+    /**
+     * @ORM\Column(length=128)
+     */
+    private $name;
+    
+    // ...
+}
+```
+
+Read more about annotations in [Doctrine documentation](http://doctrine-orm.readthedocs.io/projects/doctrine-orm/en/latest/reference/basic-mapping.html).
+
+#### 2. Update database schema
+
+So far you have a data object for your entity, and you explained to doctrine how it should be stored. Last thing left in the list is to create space where entity will be stored. Lucky for us Doctrine has few commands which allow to create required tables in the database.
+
+```bash
+$ app/console orm:schema:update --force
+```
+
