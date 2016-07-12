@@ -15,13 +15,10 @@ abstract class AbstractCommand extends ContainerAwareCommand
      */
     protected function bind($topic, $callback)
     {
-        $service = $this->getApiService();
+        $binding = new CallbackBinding();
+        $binding->on($topic, '0', $callback);
 
-        $service
-            ->bind(
-                (new CallbackBinding())
-                    ->on($topic, '0', $callback)
-            );
+        $this->getApiService()->bind($binding);
 
         return $this;
     }

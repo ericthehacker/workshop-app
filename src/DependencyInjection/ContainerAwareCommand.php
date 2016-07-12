@@ -3,7 +3,13 @@
 namespace Magento\Bootstrap\DependencyInjection;
 
 use Doctrine\ORM\EntityManager;
+use Magento\Bootstrap\Model\Entity\ShipmentRequest;
+use Magento\Bootstrap\Model\Entity\Sku;
+use Magento\Bootstrap\Model\Entity\Stock;
 use Magento\Bootstrap\Model\Repository\AbstractRepository;
+use Magento\Bootstrap\Model\Repository\ShipmentRequestRepository;
+use Magento\Bootstrap\Model\Repository\SkuRepository;
+use Magento\Bootstrap\Model\Repository\StockRepository;
 use Pimple\Container;
 use Seven\Component\MessageBusClient\Client;
 use Seven\Component\MessageBusClient\Protocol\AMQP\Consumer;
@@ -74,5 +80,29 @@ abstract class ContainerAwareCommand extends Command
     {
         return $this->getEntityManager()
             ->getRepository($entityClass);
+    }
+
+    /**
+     * @return SkuRepository
+     */
+    public function getSkuRepository()
+    {
+        return $this->getRepository(Sku::class);
+    }
+
+    /**
+     * @return StockRepository
+     */
+    public function getStockRepository()
+    {
+        return $this->getRepository(Stock::class);
+    }
+
+    /**
+     * @return ShipmentRequestRepository
+     */
+    public function getShipmentRequestRepository()
+    {
+        return $this->getRepository(ShipmentRequest::class);
     }
 }

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "622fbe2082d299c6b4ff54e1b261df23",
-    "content-hash": "41a46222b2933112da548ae6c2959454",
+    "hash": "0ebcbd6e4999ec3f8e76f685faa5dc54",
+    "content-hash": "c136a0f4cba3ac02db7b9ff6101abeae",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -847,23 +847,24 @@
         },
         {
             "name": "skolodyazhnyy/message-bus-client",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/skolodyazhnyy/message-bus-simple-client.git",
-                "reference": "79eaf6e0e1752e2ac48f7a6db842779ebab6fc4d"
+                "reference": "46ad4e6812bf3ebe1e8d0e2dab3d11a556d932cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/skolodyazhnyy/message-bus-simple-client/zipball/79eaf6e0e1752e2ac48f7a6db842779ebab6fc4d",
-                "reference": "79eaf6e0e1752e2ac48f7a6db842779ebab6fc4d",
+                "url": "https://api.github.com/repos/skolodyazhnyy/message-bus-simple-client/zipball/46ad4e6812bf3ebe1e8d0e2dab3d11a556d932cd",
+                "reference": "46ad4e6812bf3ebe1e8d0e2dab3d11a556d932cd",
                 "shasum": ""
             },
             "require-dev": {
                 "fabpot/php-cs-fixer": "^1.11",
                 "kriswallsmith/buzz": "^0.15.0",
                 "php-amqplib/php-amqplib": "^2.6",
-                "phpunit/phpunit": "^5.3"
+                "phpunit/phpunit": "^5.3",
+                "silex/silex": "^2.0"
             },
             "suggest": {
                 "kriswallsmith/buzz": "To be able to use HTTP Driver",
@@ -886,7 +887,7 @@
                 }
             ],
             "description": "Simple Magento Message Bus Client",
-            "time": "2016-07-04 13:28:45"
+            "time": "2016-07-12 09:26:47"
         },
         {
             "name": "symfony/console",
