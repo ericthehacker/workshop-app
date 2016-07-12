@@ -9,7 +9,7 @@ namespace Magento\Bootstrap\Model\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="\Magento\Bootstrap\Model\Repository\ShipmentRequestLineRepository")
+ * @ORM\Entity
  * @ORM\Table(name="shipment_request_line")
  */
 class ShipmentRequestLine

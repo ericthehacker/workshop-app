@@ -1,9 +1,9 @@
 amqp:
-  host: amqp.partner.mcom.magento.com
-  port: 22200
-  user: luma
-  password: luma
-  vhost: luma
+  host: localhost
+  port: 5672
+  user: guest
+  password: guest
+  vhost: /
 
 database:
   driver: pdo_sqlite

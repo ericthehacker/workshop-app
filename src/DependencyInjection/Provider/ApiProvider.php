@@ -48,11 +48,6 @@ class ApiProvider implements ServiceProviderInterface
             return new Client($pimple['bootstrap.api_driver']);
         };
 
-        $pimple['bootstrap.api_service'] = function () use ($pimple) {
-            return $pimple['bootstrap.api_client']
-                ->define('warehouse-management-system');
-        };
-
         $pimple['bootstrap.amqp.consumer'] = function () use ($pimple) {
             return new AMQP\Consumer($pimple['bootstrap.amqp.channel'], $pimple['bootstrap.api_service']);
         };

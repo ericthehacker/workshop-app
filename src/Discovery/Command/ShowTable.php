@@ -79,9 +79,7 @@ class ShowTable extends ContainerAwareCommand
      */
     private function getProperties($className)
     {
-        $entity = new $className(null);
-
-        $reflect = new \ReflectionClass($entity);
+        $reflect = new \ReflectionClass($className);
         $properties = $reflect->getProperties();
 
         return array_map(function (\ReflectionProperty $property) {

@@ -9,6 +9,7 @@ $app->register(new \Magento\Bootstrap\DependencyInjection\Provider\CommandProvid
 $app->register(new \Magento\Bootstrap\DependencyInjection\Provider\FixtureProvider());
 $app->register(new \Magento\Bootstrap\DependencyInjection\Provider\ConfigurationProvider());
 $app->register(new \Magento\Bootstrap\DependencyInjection\Provider\ApiProvider());
+$app->register(new \Magento\Bootstrap\DependencyInjection\Provider\ServiceProvider());
 $app->register(new \Magento\Bootstrap\DependencyInjection\Provider\DatabaseProvider());
 
 $app['debug'] = true;
