@@ -125,12 +125,12 @@ protected function execute(InputInterface $input, OutputInterface $output)
 
 You can access arguments declared in the step 2 using `$input->getArgument('argument_name')` method.
 
-#### Run your command
+#### 4. Run your command
 
-To run your command simply type:
+To run your command simply type `app/console` and name of your command. Example above you can run like this: 
 
 ```bash
-$ app/console [name-of-the-command] [arguments...]
+$ app/console update-stock-level WB023115 14
 ```
 
 ### Making API calls, publishing and broadcasting messages
@@ -204,4 +204,4 @@ var_export($response->getValue());
 
 ### Declaring your own entities
 
-TBD*
+*TBD*
