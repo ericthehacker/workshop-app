@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magento\Bootstrap\DependencyInjection;
+namespace Magento\Bootstrap\Command;
 
 use Doctrine\ORM\EntityManager;
 use Magento\Bootstrap\Model\Entity\ShipmentRequest;

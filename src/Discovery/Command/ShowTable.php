@@ -6,7 +6,7 @@
 
 namespace Magento\Bootstrap\Discovery\Command;
 
-use Magento\Bootstrap\DependencyInjection\ContainerAwareCommand;
+use Magento\Bootstrap\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

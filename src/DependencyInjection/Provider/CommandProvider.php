@@ -6,7 +6,7 @@
 
 namespace Magento\Bootstrap\DependencyInjection\Provider;
 
-use Magento\Bootstrap\DependencyInjection\ContainerAwareCommand;
+use Magento\Bootstrap\Command\ContainerAwareCommand;
 use Magento\Bootstrap\Discovery\Commands;
 use Magento\Bootstrap\Discovery\FixtureCommands;
 use Magento\Bootstrap\Discovery\ShowCommands;

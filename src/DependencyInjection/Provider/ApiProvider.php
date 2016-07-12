@@ -40,12 +40,16 @@ class ApiProvider implements ServiceProviderInterface
             return new JsonEncoder();
         };
 
-        $pimple['bootstrap.api_driver'] = function () use ($pimple) {
-            return new AMQP\Driver($pimple['bootstrap.amqp.channel'], 'outbox', $pimple['bootstrap.json_encoder']);
+        $pimple['bootstrap.amqp_driver'] = function () use ($pimple) {
+            return new AMQP\Driver(
+                $pimple['bootstrap.amqp.channel'],
+                'outbox',
+                $pimple['bootstrap.json_encoder']
+            );
         };
 
         $pimple['bootstrap.api_client'] = function () use ($pimple) {
-            return new Client($pimple['bootstrap.api_driver']);
+            return new Client($pimple['bootstrap.amqp_driver']);
         };
 
         $pimple['bootstrap.amqp.consumer'] = function () use ($pimple) {

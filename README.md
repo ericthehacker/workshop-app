@@ -89,7 +89,7 @@ Each command has a name and arguments, you declare these per command. You can ru
 
 #### 1. Create a command class
 
-Simply create a new PHP class inside of the `src/Command` folder and extend it from `AbstractCommand`. Make sure the namespace is `Magento\Bootstrap\Command`.
+Simply create a new PHP class inside of the `src/Command` folder and extend it from `ContainerAwareCommand`. Make sure the namespace is `Magento\Bootstrap\Command`.
 
 #### 2. Override configure method
 
@@ -141,7 +141,7 @@ This application uses [message-bus-client](https://github.com/skolodyazhnyy/mess
 
 > Keep in mind: It's not an official library, just a basic implementation for purpose of this workshop.
 
-In the command, you can access API client using `AbstractCommand::getApiClient` method.
+In the command, you can access API client using `ContainerAwareCommand::getApiClient` method.
 
 #### Broadcast
 
