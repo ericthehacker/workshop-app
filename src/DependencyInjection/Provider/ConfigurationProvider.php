@@ -14,7 +14,7 @@ class ConfigurationProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['bootstrap.config'] = function () use ($pimple) {
-            $yaml = file_get_contents(__DIR__.'/../../app/config/parameters.yml');
+            $yaml = file_get_contents(__DIR__.'/../../../app/config/parameters.yml');
 
             return Yaml::parse($yaml);
         };

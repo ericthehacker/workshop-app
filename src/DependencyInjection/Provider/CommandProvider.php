@@ -20,7 +20,7 @@ class CommandProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['bootstrap.fixture_commands.config'] = function () use ($pimple) {
-            $yaml = file_get_contents(__DIR__.'/../../app/config/commands.yml');
+            $yaml = file_get_contents(__DIR__.'/../../../app/config/commands.yml');
 
             return Yaml::parse($yaml);
         };

@@ -15,7 +15,7 @@ class DatabaseProvider implements ServiceProviderInterface
     public function register(Container $pimple)
     {
         $pimple['entity_manager'] = function () use ($pimple) {
-            $paths = array(__DIR__.'/../Model/Entity');
+            $paths = array(__DIR__.'/../../Model/Entity');
             $dbParams = $pimple['bootstrap.config']['database'];
             $config = Setup::createAnnotationMetadataConfiguration($paths, false, $dbParams['doctrine_proxy_path'], null, false);
 
