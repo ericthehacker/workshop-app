@@ -1,9 +1,9 @@
 amqp:
-  host: magento.docker
-  port: 5672
-  user: guest
-  password: guest
-  vhost: /
+  host: amqp.partner.mcom.magento.com
+  port: 22200
+  user: luma
+  password: luma
+  vhost: luma
 
 database:
   driver: pdo_sqlite

@@ -8,7 +8,7 @@ $app = new Silex\Application();
 $app->register(new \Magento\Bootstrap\Provider\CommandProvider());
 $app->register(new \Magento\Bootstrap\Provider\FixtureProvider());
 $app->register(new \Magento\Bootstrap\Provider\ConfigurationProvider());
-$app->register(new \Magento\Bootstrap\Provider\AmqpProvider());
+$app->register(new \Magento\Bootstrap\Provider\ApiProvider());
 $app->register(new \Magento\Bootstrap\Provider\DatabaseProvider());
 
 $app['debug'] = true;

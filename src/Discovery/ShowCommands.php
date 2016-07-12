@@ -18,7 +18,7 @@ class ShowCommands implements DiscoveryInterface
         foreach ($files as $file) {
             preg_match('/^.+\/(.+)\.php$/', $file, $matches);
             $entityName = $matches[1];
-            $className = '\Magento\Bootstrap\Model\Entity\\'.$entityName;
+            $className = '\\Magento\\Bootstrap\\Model\\Entity\\'.$entityName;
             $commands[] = new ShowTable($entityName, $className);
         }
 

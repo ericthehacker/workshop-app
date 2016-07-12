@@ -2,7 +2,12 @@
 
 namespace Magento\Bootstrap\DependencyInjection;
 
+use Doctrine\ORM\EntityManager;
+use Magento\Bootstrap\Model\Repository\AbstractRepository;
 use Pimple\Container;
+use Seven\Component\MessageBusClient\Client;
+use Seven\Component\MessageBusClient\Protocol\AMQP\Consumer;
+use Seven\Component\MessageBusClient\ServiceInterface;
 use Symfony\Component\Console\Command\Command;
 
 abstract class ContainerAwareCommand extends Command
@@ -20,34 +25,40 @@ abstract class ContainerAwareCommand extends Command
         return $this->container;
     }
 
+    /**
+     * @param Container $container
+     */
     public function setContainer(Container $container)
     {
         $this->container = $container;
     }
 
     /**
-     * @return \Seven\Component\MessageBusClient\Client
+     * @return Client
      */
-    public function getAmqpClient()
+    public function getApiClient()
     {
-        return $this->container['bootstrap.amqp.client'];
+        return $this->container['bootstrap.api_client'];
     }
 
     /**
-     * @return \Seven\Component\MessageBusClient\Protocol\AMQP\Consumer
+     * @return Consumer
      */
     public function getAmqpConsumer()
     {
         return $this->container['bootstrap.amqp.consumer'];
     }
 
-    public function getAmqpService()
+    /**
+     * @return ServiceInterface
+     */
+    public function getApiService()
     {
-        return $this->container['bootstrap.amqp.service'];
+        return $this->container['bootstrap.api_service'];
     }
 
     /**
-     * @return \Doctrine\ORM\EntityManager
+     * @return EntityManager
      */
     public function getEntityManager()
     {
@@ -55,9 +66,9 @@ abstract class ContainerAwareCommand extends Command
     }
 
     /**
-     * @param $entityClass
+     * @param string $entityClass
      *
-     * @return \Magento\Bootstrap\Model\Repository\AbstractRepository
+     * @return AbstractRepository
      */
     public function getRepository($entityClass)
     {

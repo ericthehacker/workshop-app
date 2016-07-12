@@ -9,7 +9,7 @@ abstract class AbstractCommand extends ContainerAwareCommand
 {
     protected function bind($topic, $callback)
     {
-        $service = $this->getAmqpService();
+        $service = $this->getApiService();
 
         $service
             ->bind(

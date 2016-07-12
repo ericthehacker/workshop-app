@@ -29,12 +29,16 @@ class ShowTable extends ContainerAwareCommand
     {
         $this->entityName = $entityName;
         $this->className = $className;
+
         parent::__construct('query:'.strtolower($this->entityName).':all');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $entites = $this->getEntityManager()
+        $entities = $this->getEntityManager()
             ->getRepository($this->className)
             ->findAll();
 
@@ -43,10 +47,20 @@ class ShowTable extends ContainerAwareCommand
         $table = new Table($output);
         $table->setHeaders($properties);
 
-        foreach ($entites as $entity) {
+        foreach ($entities as $entity) {
             $values = [];
             foreach ($properties as $property) {
-                $values[] = $this->getPropertyValue($entity, $property);
+                $value = $this->getPropertyValue($entity, $property);
+
+                if (is_object($value)) {
+                    $value = 'Object<'.get_class($value).'>';
+                }
+
+                if (is_array($value)) {
+                    $value = 'Array';
+                }
+
+                $values[] = $value;
             }
             $table->addRow($values);
         }
@@ -72,12 +86,12 @@ class ShowTable extends ContainerAwareCommand
     }
 
     /**
-     * @param $entity
-     * @param $property
+     * @param object $entity
+     * @param string $property
      *
-     * @return array
+     * @return mixed
      */
-    protected function getPropertyValue($entity, $property)
+    private function getPropertyValue($entity, $property)
     {
         $r = new \ReflectionObject($entity);
         $p = $r->getProperty($property);

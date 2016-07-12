@@ -2,14 +2,14 @@
 
 namespace Magento\Bootstrap\Provider;
 
-use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Connection\AMQPLazyConnection;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Seven\Component\MessageBusClient\Client;
 use Seven\Component\MessageBusClient\Encoder\JsonEncoder;
 use Seven\Component\MessageBusClient\Protocol\AMQP;
 
-class AmqpProvider implements ServiceProviderInterface
+class ApiProvider implements ServiceProviderInterface
 {
     /**
      * {@inheritdoc}
@@ -19,7 +19,7 @@ class AmqpProvider implements ServiceProviderInterface
         $pimple['bootstrap.amqp.connection'] = function () use ($pimple) {
             $config = $pimple['bootstrap.config']['amqp'];
 
-            return new AMQPStreamConnection(
+            return new AMQPLazyConnection(
                 $config['host'],
                 $config['port'],
                 $config['user'],
@@ -36,21 +36,21 @@ class AmqpProvider implements ServiceProviderInterface
             return new JsonEncoder();
         };
 
-        $pimple['bootstrap.amqp.driver'] = function () use ($pimple) {
+        $pimple['bootstrap.api_driver'] = function () use ($pimple) {
             return new AMQP\Driver($pimple['bootstrap.amqp.channel'], 'outbox', $pimple['bootstrap.json_encoder']);
         };
 
-        $pimple['bootstrap.amqp.client'] = function () use ($pimple) {
-            return new Client($pimple['bootstrap.amqp.driver']);
+        $pimple['bootstrap.api_client'] = function () use ($pimple) {
+            return new Client($pimple['bootstrap.api_driver']);
         };
 
-        $pimple['bootstrap.amqp.service'] = function () use ($pimple) {
-            return $pimple['bootstrap.amqp.client']
+        $pimple['bootstrap.api_service'] = function () use ($pimple) {
+            return $pimple['bootstrap.api_client']
                 ->define('warehouse-management-system');
         };
 
         $pimple['bootstrap.amqp.consumer'] = function () use ($pimple) {
-            return new AMQP\Consumer($pimple['bootstrap.amqp.channel'], $pimple['bootstrap.amqp.service']);
+            return new AMQP\Consumer($pimple['bootstrap.amqp.channel'], $pimple['bootstrap.api_service']);
         };
     }
 }

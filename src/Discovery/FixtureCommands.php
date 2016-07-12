@@ -4,6 +4,7 @@ namespace Magento\Bootstrap\Discovery;
 
 use Magento\Bootstrap\Discovery\Command\SimulateMessage;
 use Pimple\Container;
+use Symfony\Component\Console\Command\Command;
 
 class FixtureCommands implements DiscoveryInterface
 {
@@ -21,7 +22,7 @@ class FixtureCommands implements DiscoveryInterface
     }
 
     /**
-     * @return \Symfony\Component\Console\Command\Command[]
+     * @return Command[]
      */
     public function discover()
     {
@@ -29,7 +30,7 @@ class FixtureCommands implements DiscoveryInterface
         foreach ($this->container['bootstrap.fixture_commands.config']['commands'] as $key => $config) {
             $commands[] = new SimulateMessage(
                 $this->container['bootstrap.fixture.loader'],
-                $this->container['bootstrap.amqp.client'],
+                $this->container['bootstrap.api_client'],
                 $config
             );
         }
