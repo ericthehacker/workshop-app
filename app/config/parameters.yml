@@ -7,8 +7,6 @@ amqp:
 
 database:
   driver: pdo_sqlite
-  user: auth
-  password: auth
   path: database.sqlite
   memory: false
   doctrine_proxy_path: ./proxies
