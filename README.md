@@ -91,14 +91,14 @@ Simply create a new PHP class inside of the `src/Command` folder and extend it f
 
 #### 2. Override configure method
 
-Create configure method with the same signature as in the parent class and set command name and list of arguments in the body of the method. For example:
+Create `configure` method with the same signature as in the parent class and set command name and list of arguments in the body of the method. For example:
 
 ```php
 protected function configure()
 {
-    $this->setName('update-stock-level')
-        ->setDescription('Send stock level update')
-        ->addArgument('sku', InputArgument::REQUIRED, 'SKU')
+    $this->setName('update-stock-level') // name will be used to run your command
+        ->setDescription('Send stock level update') // description will be shown when you run app/console without arguments
+        ->addArgument('sku', InputArgument::REQUIRED, 'SKU') // you can add as many arguments as you need
         ->addArgument('qty', InputArgument::REQUIRED, 'Quantity')
     ;
 }
@@ -106,7 +106,7 @@ protected function configure()
 
 #### 3. Declare execute method
 
-Last step, you need to implement logic of your command. You would need to override `execute` method and implement your logic inside.
+Last step, you need to implement logic of your command. You would need to override `execute` method and implement your logic inside. For exmaple, this command will publish a message to the API client:
 
 ```php
 protected function execute(InputInterface $input, OutputInterface $output)
@@ -200,8 +200,92 @@ var_export($response->getValue());
 
 ### Consuming messages
 
-*TBD*
+In previous section you learn how to broadcast and send messages to other services. Now it's time to see how you can receive messages from other services! 
+
+First, you need to create bindings for topics your application is interested in. Your application may implement one or multiple services defined in [Magento Shared Service Specification](https://magento-mcom.github.io/docs/specification/#services). Implementing a service means being able to process all command and queries and dispatch all events defined in specification. Apart of that your application also can subscribe to any event exposed by other services.
+
+You can subscribe to topics using API of [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library. You already learn how to discover remote endpoint, but as well you can define your own services using `ClientInterface::define` method.
+
+```php
+$service = $client->define('my-service');
+```
+
+Now, you can create bindings for topics you are interested in by calling `ServiceInterface::bind` method. It accepts instance of the `BindingInterface` interface as an argument. You can create your own implementation which will work best for you, but for quick start you can use `CallbackBinding`. It allows you to bind any callable to the topic using `CallbackBinding::on` method.
+
+```
+$service->bind(
+    (new CallbackBinding())
+        ->on('message-topic', '0', function(Request $request) {
+            // for sync methods you can return Response
+            return new Response('result');
+        })
+        ->on('some-other-topic', '0', function(Request $request) {
+            // for async methods you don't need to return anything
+        })
+);
+```
+
+These bindings can be defined in `src/DependencyInjection/Provider/ServiceProvider.php`. This file already have service defined, all you need to do is to add your callbacks.
+
+Once bindings are done you can use service in AMQP or HTTP consumer.
+
+#### AMQP consumer
+
+There is already an AMQP consumer in the application, so you don't need to worry about a thing. You can start consuming messages by running:
+
+```bash
+$ app/console consume
+```
 
 ### Declaring your own entities
 
-*TBD*
+We decided to use Doctrine ORM in the application because it nicely hides all complexity of persistance layer providing nice object-level API. There are few entities defined in `src/Model/Entity`, you can use them as example to define your owns.
+
+#### 1. Create entity and define mapping
+
+Create a new class in `src/Model/Entity` and define properties of your entity.
+
+```php
+<?php
+
+namespace Magento\Bootstrap\Model\Entity;
+
+class Sku
+{
+    private $sku;
+    private $name;
+
+    // Define __construct, getters and setters depending on mutability of each field
+}
+```
+
+Once you decide what fields your model will have, add Doctrine Annotations to explain what SQL types doctrine should use in the database.
+
+```php
+<?php
+namespace Magento\Bootstrap\Model\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="\Magento\Bootstrap\Model\Repository\SkuRepository")
+ * @ORM\Table(name="sku")
+ */
+class Sku
+{
+    /**
+     * @ORM\Id                  -- exactly one of the fields should be marked as primary key
+     * @ORM\Column(length=128)
+     */
+    private $sku;
+
+    /**
+     * @ORM\Column(length=128)
+     */
+    private $name;
+    
+    // ...
+}
+```
+
+Read more about annotations in [Doctrine documentation](http://doctrine-orm.readthedocs.io/projects/doctrine-orm/en/latest/reference/basic-mapping.html).
