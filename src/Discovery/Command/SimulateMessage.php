@@ -19,7 +19,7 @@ class SimulateMessage extends Command
     /**
      * @var Client
      */
-    private $amqpClient;
+    private $client;
     /**
      * @var array
      */
@@ -27,17 +27,20 @@ class SimulateMessage extends Command
 
     /**
      * @param Loader $fixtureLoader
-     * @param Client $amqpClient
+     * @param Client $client
      * @param array  $config
      */
-    public function __construct(Loader $fixtureLoader, Client $amqpClient, array $config)
+    public function __construct(Loader $fixtureLoader, Client $client, array $config)
     {
         $this->fixtureLoader = $fixtureLoader;
-        $this->amqpClient = $amqpClient;
+        $this->client = $client;
         $this->config = $config;
         parent::__construct();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $this
@@ -46,6 +49,9 @@ class SimulateMessage extends Command
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function run(InputInterface $input, OutputInterface $output)
     {
         $jsonMessage = $this->fixtureLoader->load($this->config['fixture']);
@@ -56,6 +62,6 @@ class SimulateMessage extends Command
             $message[$key][$this->config['variable']] = 'R'.microtime(true);
         }
 
-        $this->amqpClient->broadcast(new Request($this->config['topic'], '1', $message));
+        $this->client->broadcast(new Request($this->config['topic'], '1', $message));
     }
 }

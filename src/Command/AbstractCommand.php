@@ -7,6 +7,12 @@ use Seven\Component\MessageBusClient\Binding\CallbackBinding;
 
 abstract class AbstractCommand extends ContainerAwareCommand
 {
+    /**
+     * @param string   $topic
+     * @param callable $callback
+     *
+     * @return $this
+     */
     protected function bind($topic, $callback)
     {
         $service = $this->getApiService();
@@ -14,14 +20,19 @@ abstract class AbstractCommand extends ContainerAwareCommand
         $service
             ->bind(
                 (new CallbackBinding())
-                    ->on($topic, '1', $callback)
+                    ->on($topic, '0', $callback)
             );
 
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function consume()
     {
         $this->getAmqpConsumer()->consume();
+
+        return $this;
     }
 }

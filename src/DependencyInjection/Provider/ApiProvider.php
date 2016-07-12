@@ -1,6 +1,6 @@
 <?php
 
-namespace Magento\Bootstrap\Provider;
+namespace Magento\Bootstrap\DependencyInjection\Provider;
 
 use PhpAmqpLib\Connection\AMQPLazyConnection;
 use Pimple\Container;

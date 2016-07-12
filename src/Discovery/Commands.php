@@ -2,8 +2,13 @@
 
 namespace Magento\Bootstrap\Discovery;
 
+use Symfony\Component\Console\Command\Command;
+
 class Commands implements DiscoveryInterface
 {
+    /**
+     * @return Command[]
+     */
     public function discover()
     {
         $files = glob(__DIR__.'/../Command/*.php');

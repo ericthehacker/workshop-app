@@ -1,6 +1,6 @@
 <?php
 
-namespace Magento\Bootstrap\Provider;
+namespace Magento\Bootstrap\DependencyInjection\Provider;
 
 use Magento\Bootstrap\DependencyInjection\ContainerAwareCommand;
 use Magento\Bootstrap\Discovery\Commands;

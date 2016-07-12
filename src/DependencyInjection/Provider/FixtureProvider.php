@@ -1,6 +1,6 @@
 <?php
 
-namespace Magento\Bootstrap\Provider;
+namespace Magento\Bootstrap\DependencyInjection\Provider;
 
 use Magento\Bootstrap\Fixture\Loader;
 use Pimple\Container;

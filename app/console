@@ -5,11 +5,11 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 $app = new Silex\Application();
 
-$app->register(new \Magento\Bootstrap\Provider\CommandProvider());
-$app->register(new \Magento\Bootstrap\Provider\FixtureProvider());
-$app->register(new \Magento\Bootstrap\Provider\ConfigurationProvider());
-$app->register(new \Magento\Bootstrap\Provider\ApiProvider());
-$app->register(new \Magento\Bootstrap\Provider\DatabaseProvider());
+$app->register(new \Magento\Bootstrap\DependencyInjection\Provider\CommandProvider());
+$app->register(new \Magento\Bootstrap\DependencyInjection\Provider\FixtureProvider());
+$app->register(new \Magento\Bootstrap\DependencyInjection\Provider\ConfigurationProvider());
+$app->register(new \Magento\Bootstrap\DependencyInjection\Provider\ApiProvider());
+$app->register(new \Magento\Bootstrap\DependencyInjection\Provider\DatabaseProvider());
 
 $app['debug'] = true;
 
