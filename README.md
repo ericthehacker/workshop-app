@@ -2,7 +2,7 @@
 
 Welcome to Magento Commerce Order Management workshop! In this repository you will find a simple cli application which will be used to build integrations with [Magento Commerce Order Management](https://magento.com/products/commerce-order-management).
 
-We choose to use cli application with SQLite as most basic one. You can run it on your host machine without need to run local web server, database server, docker or virtual machine. But, of course, you can build integrations in any kind of application, and even in langauge other than PHP.
+The cli application usees SQLite to keep things simple. This way it's possible to run the program on your host machine without need to run local web server, database server, docker or virtual machine. But, of course, you can build integrations in any kind of application, and even in language other than PHP.
 
 The application build on top of [Silex microframework](http://silex.sensiolabs.org/), [Symfony Console component](http://symfony.com/doc/current/components/console/introduction.html) and [Doctrine ORM](http://www.doctrine-project.org/projects/orm.html). These allow us to provide thin, but yet powerful, platform for building an integration.
 
@@ -25,16 +25,16 @@ Clone this repository and run [composer](https://getcomposer.org/) install. It w
 $ composer install
 ```
 
-Create a database file
-
-```bash
-$ app/console orm:schema-tool:create
-```
-
 Configure your AMQP connection
 
 ```bash
 $ open app/config/parameters.yml # and set options in amqp section
+```
+
+Create a database file
+
+```bash
+$ app/console orm:schema-tool:create
 ```
 
 You all set, now you can start building an integration!
@@ -84,7 +84,7 @@ $ app/console query:stock:all # Prints all stock levels
 
 ### Adding a command
 
-During workshop you would need to build additional commands to perform additional actions. Commands in console application are similar to controllers in normal web application.
+During this workshop you will be asekd to build additional commands to perform additional actions. Commands in console application are similar to controllers in normal web application.
 Each command has a name and arguments, you declare these per command. You can run command using cli entry point - `app/console`.
 
 #### 1. Create a command class
@@ -137,11 +137,11 @@ $ app/console update-stock-level WB023115 14
 
 ### Making API calls, publishing and broadcasting messages
 
-This application uses [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library, which provide very basic transport bindings for [Magento Shared Specification](https://magento-mcom.github.io/docs). 
+This application uses the [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library, which provides very basic transport bindings for [Magento Shared Specification](https://magento-mcom.github.io/docs). 
 
 > Keep in mind: It's not an official library, just a basic implementation for purpose of this workshop.
 
-In the command, you can access API client using `AbstractCommand::getApiClient` method.
+With this command, you can access API client using `AbstractCommand::getApiClient` method.
 
 #### Broadcast
 
@@ -161,7 +161,7 @@ $this->getApiClient()
 
 #### Publish
 
-You can publish message to one, particular service using `ClientInterface::discover` method to choose the service, and then `EndpointInterface::publish` to actually publish a message.
+You can publish a message to one particular service using the `ClientInterface::discover` method to choose the service, and then `EndpointInterface::publish` to actually publish a message.
 
 ```php
 $this->getApiClient()
@@ -178,7 +178,7 @@ $this->getApiClient()
 
 #### RPC Call
 
-You can make a synchronous call to particular service using `ClientInterface::discover` method to choose the service, and then `EndpointInterface::call` to actually perform a call. This method call will return you a promise which can be resolved into Response.
+You can make a synchronous call to particular service using `ClientInterface::discover` method to choose the service, and then `EndpointInterface::call` to actually perform a call. This method call will return you a promise which then can be resolved into Response.
 
 ```php
 $promise = $this->getApiClient()
@@ -206,7 +206,7 @@ var_export($response->getValue());
 
 In previous section you learn how to broadcast and send messages to other services. Now it's time to see how you can receive messages from other services! 
 
-First, you need to create bindings for topics your application is interested in. Your application may implement one or multiple services defined in [Magento Shared Service Specification](https://magento-mcom.github.io/docs/specification/#services). Implementing a service means being able to process all command and queries and dispatch all events defined in specification. Apart of that your application also can subscribe to any event exposed by other services.
+First, you need to create bindings for topics your application is interested in. Your application may implement one or multiple services defined in [Magento Shared Service Specification](https://magento-mcom.github.io/docs/specification/#services). Implementing a service means being able to process all command, queries and dispatch all events defined in specification. Apart of that your application also can subscribe to any event exposed by other services.
 
 You can subscribe to topics using API of [message-bus-client](https://github.com/skolodyazhnyy/message-bus-simple-client) library. You already learn how to discover remote endpoint, but as well you can define your own services using `ClientInterface::define` method.
 
