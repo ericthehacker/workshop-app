@@ -289,3 +289,12 @@ class Sku
 ```
 
 Read more about annotations in [Doctrine documentation](http://doctrine-orm.readthedocs.io/projects/doctrine-orm/en/latest/reference/basic-mapping.html).
+
+#### 2. Update database schema
+
+So far you have a data object for your entity, and you explained to doctrine how it should be stored. Last thing left in the list is to create space where entity will be stored. Lucky for us Doctrine has few commands which allow to create required tables in the database.
+
+```bash
+$ app/console orm:schema:update --force
+```
+
