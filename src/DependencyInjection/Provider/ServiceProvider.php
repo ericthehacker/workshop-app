@@ -23,8 +23,12 @@ class ServiceProvider implements ServiceProviderInterface
     public function setup(Container $app, CallbackBinding $binding)
     {
         $binding
-            ->on('magento.catalog.product_management.updated', '0', function (Request $request) use ($app) {
-                // @todo define logic for processing product update event
+            ->on('ping', '0', function (Request $request) use ($app) {
+                $app['bootstrap.api_client']
+                    ->broadcast(new Request('pong', '0', [
+                        'application' => 'workshop-app',
+                        'payload' => $request->getArgument('payload'),
+                    ]));
             })
         ;
     }
