@@ -6,6 +6,7 @@
 
 namespace Magento\Bootstrap\DependencyInjection\Provider;
 
+use Magento\Bootstrap\Model\Entity\Sku;
 use Magento\Bootstrap\Printer\ServicePrinterDecorator;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -23,9 +24,17 @@ class ServiceProvider implements ServiceProviderInterface
     public function setup(Container $app, CallbackBinding $binding)
     {
         $binding
-            ->on('magento.catalog.product_management.updated', '0', function (Request $request) use ($app) {
-                // @todo define logic for processing product update event
+            ->on('ping', '0', function (Request $request) use ($app) {
+                return 'PONG';
             })
+            ->on('magento.catalog.product_management.updated', '0', function (Request $request) use ($app) {
+                $arguments = $request->getArguments();
+                $product = $arguments['product'];
+                $sku = new Sku($product['sku'], $product['name'][0]['value']);
+
+                $app['entity_manager']->persist($sku);
+                $app['entity_manager']->flush($sku);
+            });
         ;
     }
 
