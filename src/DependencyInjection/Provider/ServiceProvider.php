@@ -10,6 +10,7 @@ use Magento\Bootstrap\Printer\ServicePrinterDecorator;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Seven\Component\MessageBusClient\Binding\CallbackBinding;
+use Seven\Component\MessageBusClient\Client;
 use Seven\Component\MessageBusClient\Message\Request;
 
 class ServiceProvider implements ServiceProviderInterface
@@ -44,5 +45,14 @@ class ServiceProvider implements ServiceProviderInterface
 
             return new ServicePrinterDecorator($service);
         };
+    }
+
+    /**
+     * @param Container $app
+     * @return Client
+     */
+    private function getApiClient(Container $app)
+    {
+        return $app['bootstrap.api_client'];
     }
 }
