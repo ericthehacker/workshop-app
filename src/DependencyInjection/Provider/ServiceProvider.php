@@ -6,12 +6,14 @@
 
 namespace Magento\Bootstrap\DependencyInjection\Provider;
 
+use Magento\Bootstrap\Model\Entity\Sku;
 use Magento\Bootstrap\Printer\ServicePrinterDecorator;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Seven\Component\MessageBusClient\Binding\CallbackBinding;
 use Seven\Component\MessageBusClient\Client;
 use Seven\Component\MessageBusClient\Message\Request;
+use Seven\Component\MessageBusClient\Message\Response;
 
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -25,8 +27,25 @@ class ServiceProvider implements ServiceProviderInterface
     {
         $binding
             ->on('magento.catalog.product_management.updated', '0', function (Request $request) use ($app) {
-                // @todo define logic for processing product update event
+                $arguments = $request->getArguments();
+                $product = $arguments['product'];
+                $sku = new Sku($product['sku'], $product['name'][0]['value']);
+
+                $app['entity_manager']->persist($sku);
+                $app['entity_manager']->flush($sku);
             })
+            ->on('ping', '0', function (Request $request) use ($app) {
+                $this->getApiClient($app)
+                    ->broadcast(
+                        new Request('pong', '0', [
+                            'payload' => $request->getArgument('payload')
+                        ])
+                    );
+
+                return new Response([
+                    'payload' => 'PONG!! => ' . $request->getArgument('payload')['payload']
+                ]);
+            });
         ;
     }
 
