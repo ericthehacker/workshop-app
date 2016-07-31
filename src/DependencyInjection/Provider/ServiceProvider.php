@@ -25,8 +25,14 @@ class ServiceProvider implements ServiceProviderInterface
     {
         $binding
             ->on('magento.catalog.product_management.updated', '0', function (Request $request) use ($app) {
-                // @todo define logic for processing product update event
+                //$sku = ...
+
+                $app['entity_manager']->persist($sku);
+                $app['entity_manager']->flush($sku);
             })
+            ->on('ping', '0', function (Request $request) use ($app) {
+
+            });
         ;
     }
 
