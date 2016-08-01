@@ -16,12 +16,14 @@ class PingCommand extends \Magento\Bootstrap\Command\ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getApiClient()
+        $promise = $this->getApiClient()
             ->discover('workshop-app') //can then call service
-        ->publish(
+            ->call(
             new Request('ping', '0', [
                 'payload' => $input->getArguments('payload')
             ]));
+
+        $promise->resolve(10);
     }
 
 

@@ -12,6 +12,7 @@ use Pimple\ServiceProviderInterface;
 use Seven\Component\MessageBusClient\Binding\CallbackBinding;
 use Seven\Component\MessageBusClient\Client;
 use Seven\Component\MessageBusClient\Message\Request;
+use Seven\Component\MessageBusClient\Message\Response;
 
 class ServiceProvider implements ServiceProviderInterface
 {
@@ -34,6 +35,10 @@ class ServiceProvider implements ServiceProviderInterface
                             'payload' => $request->getArgument('payload')
                         ])
                     );
+
+                return new Response([
+                    'payload' => 'PONG!! => ' . $request->getArgument('payload')['payload']
+                ]);
             })
         ;
     }
