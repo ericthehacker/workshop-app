@@ -26,7 +26,16 @@ class ServiceProvider implements ServiceProviderInterface
     {
         $binding
             ->on('magento.catalog.product_management.updated', '0', function (Request $request) use ($app) {
-                // @todo define logic for processing product update event
+                /** @var \Doctrine\ORM\EntityManager $entityManager */
+                $entityManager = $app['entity_manager'];
+
+                $sku = $request->getArgument('product')['sku'];
+                $name = $request->getArgument('product')['name'][0]['value'];
+
+                $product = new \Magento\Bootstrap\Model\Entity\Sku($sku, $name);
+
+                $entityManager->persist($product);
+                $entityManager->flush();
             })
             ->on('ping', '0', function(Request $request) use ($app) {
                 $this->getApiClient($app)
