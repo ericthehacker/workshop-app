@@ -27,6 +27,14 @@ class ServiceProvider implements ServiceProviderInterface
             ->on('magento.catalog.product_management.updated', '0', function (Request $request) use ($app) {
                 // @todo define logic for processing product update event
             })
+            ->on('ping', '0', function(Request $request) use ($app) {
+                $this->getApiClient($app)
+                    ->broadcast(
+                        new Request('pong', '0', [
+                            'payload' => $request->getArgument('payload')
+                        ])
+                    );
+            })
         ;
     }
 
