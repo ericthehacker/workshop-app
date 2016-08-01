@@ -20,7 +20,7 @@ class PingCommand extends \Magento\Bootstrap\Command\ContainerAwareCommand
             ->discover('workshop-app') //can then call service
             ->call(
             new Request('ping', '0', [
-                'payload' => $input->getArguments('payload')
+                'payload' => $input->getArgument('payload')
             ]));
 
         $promise->resolve(10);

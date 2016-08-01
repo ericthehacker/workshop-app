@@ -36,9 +36,7 @@ class ServiceProvider implements ServiceProviderInterface
                         ])
                     );
 
-                return new Response([
-                    'payload' => 'PONG!! => ' . $request->getArgument('payload')['payload']
-                ]);
+                return new Response('PONG!! => ' . $request->getArgument('payload'));
             })
         ;
     }
